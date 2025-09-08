@@ -1,5 +1,6 @@
+import axios from "axios";
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 
 const UserLogin = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -7,11 +8,19 @@ const UserLogin = () => {
     const [lastName, setLastName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    const navigate = useNavigate();
 
-    const loginHandler = () => {
-        console.log(email, password);
+    const loginHandler = async () => {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, { email, password });
+        console.log(response.data);
+        navigate("/home");
         setEmail("");
         setPassword("");
+    }
+    const signUpHandler = async () => {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`, { firstName, lastName, email, password });
+        console.log(response.data);
+        setIsLogin((prev) => !prev);
     }
 
     return (
@@ -40,7 +49,7 @@ const UserLogin = () => {
             </div>
             <div className="w-full p-4 pb-6 flex flex-col grow justify-between">
                 <div className="pt-5 text-center">
-                    <Link className="w-full bg-black rounded-lg text-white font-bold inline-block p-3  text-center" onClick={loginHandler}>{isLogin ? "Login" : "Sign In"}</Link>
+                    <Link className="w-full bg-black rounded-lg text-white font-bold inline-block p-3  text-center" onClick={isLogin ? loginHandler : signUpHandler}>{isLogin ? "Login" : "Sign Up"}</Link>
                     <p className="text-md text-black pt-2">{isLogin ? "Don't Have any accout?" : "Already have an account?"} <span onClick={() => { setIsLogin(!isLogin) }}>{isLogin ? "Create one" : "Login"}</span></p>
                 </div>
                 <div className="w-full">
