@@ -44,7 +44,7 @@ const CaptainLogin = () => {
                     <p className="text-md text-black pt-2">{isLogin ? "Don't Have any accout?" : "Already have an account?"} <span onClick={() => { setIsLogin(!isLogin) }}>{isLogin ? "Create one" : "Login"}</span></p>
                 </div>
                 <div className="w-full">
-                    <Link className="w-full bg-yellow-500 rounded-lg text-black font-bold inline-block p-3  text-center" to={"/register"}>Sign in as Capatin</Link>
+                    <Link className="w-full bg-green-600 rounded-lg text-white font-bold inline-block p-3  text-center" to={"/login"}>Sign in as User</Link>
                 </div>
             </div>
         </div>
