@@ -11,7 +11,7 @@ const UserLogin = () => {
     const navigate = useNavigate();
 
     const loginHandler = async () => {
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, { email, password });
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, { email, password }, { withCredentials: true });
         console.log(response.data);
         navigate("/home");
         setEmail("");

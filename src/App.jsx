@@ -1,18 +1,25 @@
 import { Route, Routes } from "react-router-dom"
 import UserLogin from "./pages/UserLogin"
 import CaptainLogin from "./pages/CaptainLogin"
-import Start from "./pages/Start"
 import { Home } from "./pages/Home"
+import Layout from "./components/Layout"
+import UserContext from "./context/UserContext"
+import { useState } from "react"
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Start />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<UserLogin />} />
-        <Route path="/register" element={<CaptainLogin />} />
-      </Routes>
+      <UserContext.Provider value={{ user, setUser }}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="home" element={<Home />} />
+          </Route>
+          <Route path="login" element={<UserLogin />} />
+          <Route path="register" element={<CaptainLogin />} />
+        </Routes>
+      </UserContext.Provider>
     </>
   )
 }
