@@ -5,6 +5,7 @@ import { Home } from "./pages/Home"
 import Layout from "./components/Layout"
 import UserContext from "./context/UserContext"
 import { useState } from "react"
+import Start from "./pages/Start"
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -13,11 +14,12 @@ const App = () => {
     <>
       <UserContext.Provider value={{ user, setUser }}>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="home" element={<Home />} />
+          <Route path="/" element={<Start />} />
+          <Route element={<Layout />}>
+            <Route path="/home" element={<Home />} />
           </Route>
-          <Route path="login" element={<UserLogin />} />
-          <Route path="register" element={<CaptainLogin />} />
+          <Route path="/login" element={<UserLogin />} />
+          <Route path="/register" element={<CaptainLogin />} />
         </Routes>
       </UserContext.Provider>
     </>
