@@ -1,7 +1,9 @@
+import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CaptainLogin = () => {
+
     const [isLogin, setIsLogin] = useState(true);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -10,10 +12,34 @@ const CaptainLogin = () => {
     const [vehicleColor, setVehicleColor] = useState("");
     const [vehicleCapacity, setVehicleCapacity] = useState("");
     const [vehiclePlate, setVehiclePlate] = useState("");
-    const [vehicleType, setVehicleType] = useState("car");
+    const [vehicleType, setVehicleType] = useState("");
+    const navigate = useNavigate();
 
-    const loginHandler = () => {
-        console.log(email, password);
+    const loginHandler = async () => {
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/login`, { email, password }, { withCredentials: true });
+            console.log(response);
+            navigate("/home");
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const registerHandler = async () => {
+        const registerData = {
+            firstName,
+            lastName,
+            email,
+            password,
+            vehicleColor,
+            vehicleType,
+            vehiclePlate,
+            vehicleCapacity
+        };
+
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/register`, registerData, { withCredentials: true });
+        console.log(response);
+        setIsLogin((prev) => !prev);
         setEmail("");
         setPassword("");
     }
@@ -89,7 +115,7 @@ const CaptainLogin = () => {
             </div>
             <div className="w-full p-4 pb-6 flex flex-col grow justify-between">
                 <div className="pt-5 text-center">
-                    <Link className="w-full bg-black rounded-lg text-white font-bold inline-block p-3  text-center" onClick={loginHandler}>{isLogin ? "Login" : "Sign In"}</Link>
+                    <Link className="w-full bg-black rounded-lg text-white font-bold inline-block p-3  text-center" onClick={isLogin ? loginHandler : registerHandler}>{isLogin ? "Login" : "Sign In"}</Link>
                     <p className="text-md text-black pt-2">{isLogin ? "Don't Have any accout?" : "Already have an account?"} <span onClick={() => { setIsLogin(!isLogin) }}>{isLogin ? "Create one" : "Login"}</span></p>
                 </div>
                 <div className="w-full">
